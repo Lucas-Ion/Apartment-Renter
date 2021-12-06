@@ -1,24 +1,27 @@
 package model.service;
 
+import model.user.Landlord;
+
 public class Property {
 	private int numOfBed;
 	private int numOfBath;
 	private boolean isFurnished;
 	private String cityQuadrant;
 	private String propertyType;
-//	private Landlord owner; // landlord class in Hy's parts
+	private Landlord owner;
 	private State propertyState;
-	
-	public Property(int numBed,int numBath, boolean furnish, String quadrant, String typeProp, State propState/*,Landlord own*/) {
-		super();
+
+	public Property(int numBed, int numBath, boolean furnish, String quadrant, String typeProp, State propState,
+			Landlord own) {
 		numOfBed = numBed;
 		numOfBath = numBath;
 		isFurnished = furnish;
 		cityQuadrant = quadrant;
 		propertyType = typeProp;
-		// owner = own;
+		owner = own;
 		propertyState = propState;
 	}
+
 	public String getPropertyType() {
 		return propertyType;
 	}

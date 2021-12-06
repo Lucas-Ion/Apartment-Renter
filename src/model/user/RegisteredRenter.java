@@ -1,5 +1,9 @@
 package model.user;
 
+import model.service.Observer;
+import model.service.Property;
+import model.service.Subject;
+
 public class RegisteredRenter extends User implements Renter, Observer {
 
 	private Property searchCrit;
@@ -22,5 +26,21 @@ public class RegisteredRenter extends User implements Renter, Observer {
 	}
 	
 	public void contactOwner(Property p) {}
+
+	public Property getSearchCrit() {
+		return searchCrit;
+	}
+
+	public void setSearchCrit(Property searchCrit) {
+		this.searchCrit = searchCrit;
+	}
+
+	public Subject getListing() {
+		return listing;
+	}
+
+	public void setListing(Subject listing) {
+		this.listing = listing;
+	}
 
 }
