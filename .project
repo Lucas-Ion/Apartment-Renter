@@ -14,6 +14,7 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+<<<<<<< HEAD
 	<filteredResources>
 		<filter>
 			<id>1638683658011</id>
@@ -25,4 +26,6 @@
 			</matcher>
 		</filter>
 	</filteredResources>
+=======
+>>>>>>> 5b2efd670172abf8433329d59cc633b902b14712
 </projectDescription>
