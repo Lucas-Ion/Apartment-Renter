@@ -3,6 +3,10 @@ package model.service;
 public class PaymentService {
 	public RegistrationFees feeType;
 	
+	public PaymentService(RegistrationFees feeType) {
+		super();
+		this.feeType = feeType;
+	}
 	public String makePayment() {
 		return null;
 	}
