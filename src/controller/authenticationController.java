@@ -5,16 +5,16 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class authenticationController {
-    private connector connect;
+    private connector connect = new connector();
     private ResultSet results;
 
-    public void insertUserData(String username, String firstName, String lastName, int age,
-                               String phoneNo, String address, String userRole, String notification, String userPassword){
+    public void registerUserData(String username, String firstName, String lastName, int age,
+                               String phoneNo, String address, String userRole, String userPassword){
         try{
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
                     connect.getUsername(), connect.getPassword());
             String query = "INSERT INTO userInfo " +
-                    "(username, firstName, lastName, age, phoneNo, address, userRole, notification, userPassword) " +
+                    "(username, firstName, lastName, age, phoneNo, address, userRole, userPassword) " +
                     "VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement userStmt = dbConnect.prepareStatement(query);
 
@@ -25,8 +25,15 @@ public class authenticationController {
             userStmt.setString(5, phoneNo);
             userStmt.setString(6, address);
             userStmt.setString(7, userRole);
-            userStmt.setString(8, notification);
-            userStmt.setString(9, userPassword);
+            userStmt.setString(8, userPassword);
+
+            if(Objects.equals(userRole, "renter")){
+                registerRenter(username);
+            } else if(Objects.equals(userRole, "landlord")){
+                registerLandlord(username);
+            } else if(Objects.equals(userRole, "manager")){
+                registerManager(username);
+            }
 
             userStmt.executeUpdate();
             userStmt.close();
@@ -35,6 +42,60 @@ public class authenticationController {
         }
     }
 
+
+    public void registerRenter(String renterUsername){
+        try{
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            String query = "INSERT INTO renterInfo " +
+                    "(username) " +
+                    "VALUES (?)";
+            PreparedStatement userStmt = dbConnect.prepareStatement(query);
+
+            userStmt.setString(1, renterUsername);
+            userStmt.executeUpdate();
+            userStmt.close();
+        } catch (SQLException e){
+            System.out.println("Database Error");
+        }
+    }
+
+
+    public void registerLandlord(String landlordUsername){
+        try{
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            String query = "INSERT INTO landlordInfo " +
+                    "(username) " +
+                    "VALUES (?)";
+            PreparedStatement userStmt = dbConnect.prepareStatement(query);
+
+            userStmt.setString(1, landlordUsername);
+            userStmt.executeUpdate();
+            userStmt.close();
+        } catch (SQLException e){
+            System.out.println("Database Error");
+        }
+    }
+
+    public void registerManager(String managerUsername){
+        try{
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            String query = "INSERT INTO managerInfo " +
+                    "(username) " +
+                    "VALUES (?)";
+            PreparedStatement userStmt = dbConnect.prepareStatement(query);
+
+            userStmt.setString(1, managerUsername);
+            userStmt.executeUpdate();
+            userStmt.close();
+        } catch (SQLException e){
+            System.out.println("Database Error");
+        }
+    }
+
+    //check if theres a query to find out if the user exists
     public boolean verifyUserData(String username, String password) {
         try {
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
@@ -52,5 +113,24 @@ public class authenticationController {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public String getUserType(String username){
+        String userType = "";
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM userInfo");
+            while (results.next()) {
+                if (Objects.equals(results.getString("username"), username)){
+                    userType = results.getString("userRole");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return userType;
     }
 }
