@@ -17,6 +17,14 @@ public abstract class User {
 		setAge(age);
 		setRole(role);
 	}
+	public User() {
+		setName("Anonymous");
+		setAddress("null");
+		setPhone("null");
+		setAccount(new Account());
+		setAge(0);
+		setRole(Role.RENTER);
+	}
 
 	public String getName() {
 		return name;

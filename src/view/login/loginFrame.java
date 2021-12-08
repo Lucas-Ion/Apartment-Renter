@@ -1,23 +1,31 @@
 package view.login;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import view.user.managerPanel;
+
+
 
 public class loginFrame extends JFrame implements ActionListener {
 
 
-    loginPanel loginPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	loginPanel loginPanel;
+	managerPanel managerPanel;
 
     public loginFrame(){
 
-
+    	
     loginPanel = new loginPanel();
+    managerPanel = new managerPanel();
 
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     //this.setLayout(new FlowLayout());
-    this.add(loginPanel);
+    this.add(managerPanel);
     this.pack();
     this.setLocationRelativeTo(null);
     this.setVisible(true);

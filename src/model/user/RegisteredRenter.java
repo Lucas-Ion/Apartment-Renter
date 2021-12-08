@@ -4,11 +4,10 @@ import model.service.Observer;
 import model.service.Property;
 import model.service.Subject;
 
-public class RegisteredRenter extends User implements Renter, Observer {
+public class RegisteredRenter extends Renter implements Observer {
 
 	private Property searchCrit;
 	private Subject listing;
-
 
 	public RegisteredRenter(String name, String address, String phone, Account account, int age, Role role) {
 		super(name, address, phone, account, age, role);
@@ -17,11 +16,6 @@ public class RegisteredRenter extends User implements Renter, Observer {
 
 	@Override
 	public void updateNotification(String[] matchProperties) {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
-	public void searchProperty() {
 		// TODO Auto-generated method stub
 	}
 	
