@@ -1,19 +1,11 @@
 package model.service;
 
 public interface Subject {
-	public static void register(Observer ob) {
-		// register
-	}
+	public void register(Observer ob);
 	
-	public static void contactOwner() {
-		// contact
-	}
+	public void contactOwner();
 	
-	public static void remove(Observer ob) {
-		// remove
-	}
+	public void remove(Observer ob);
 	
-	public static void notifyObserver() {
-		// notify (subscribe/unsubcribe)
-	}
+	public void notifyObserver();
 }

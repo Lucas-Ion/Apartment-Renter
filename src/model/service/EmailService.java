@@ -7,7 +7,6 @@ public class EmailService implements MessageService {
 	private Property target;
 	
 	public EmailService(String message, String sender, String receiver, Property target) {
-		super();
 		this.message = message;
 		this.sender = sender;
 		this.receiver = receiver;

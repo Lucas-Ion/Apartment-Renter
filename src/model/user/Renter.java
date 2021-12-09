@@ -8,8 +8,13 @@ import model.service.Property;
 public class Renter extends User {
 	private static propertyController controller = new propertyController();
 
-	public Renter(String name, String address, String phone, Account account, int age, Role role) {
-		super(name, address, phone, account, age, role);
+	public Renter(String fname, String lname, String address, String phone, Account account, int age, Role role) {
+		super(fname, lname, address, phone, account, age, role);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public Renter(String fname, String lname, int age, String phone,String address,  Role role, String username) {
+		super(fname, lname, age, phone,  address,role, username);
 	}
 
 	public Renter() {
@@ -22,7 +27,7 @@ public class Renter extends User {
 		for (ArrayList<String> s : tmp) {
 			int numBath = Integer.parseInt(s.get(4));
 			int numBed = Integer.parseInt(s.get(3));
-			boolean isFurnished = Integer.parseInt(s.get(5)) == 1 ? true : false;
+			boolean isFurnished = Boolean.parseBoolean(s.get(5));
 			String quadrant = s.get(6);
 			String typeProp = s.get(2);
 			Property prop = new Property(numBed, numBath, isFurnished, quadrant, typeProp);

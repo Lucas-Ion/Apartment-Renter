@@ -1,5 +1,5 @@
 package model.service;
 
 public interface Observer {
-	public void updateNotification(String [] matchProperties); 
+	public void updateNotification(String message); 
 }

@@ -4,8 +4,15 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import model.user.Landlord;
+import model.user.Manager;
+import model.user.RegisteredRenter;
+import model.user.Role;
+import model.user.User;
+
 public class authenticationController {
     private connector connect = new connector();
+    private static User userModel; 
     private ResultSet results;
 
     public void registerUserData(String username, String firstName, String lastName, int age,
@@ -133,4 +140,61 @@ public class authenticationController {
         }
         return userType;
     }
+    
+    
+    public void createUser(ArrayList<String> userInfo) {
+//    	for(String s : userInfo) {
+//    		System.out.println(s);
+//    	}
+    	String fname = userInfo.get(0);
+    	String lname = userInfo.get(1);
+    	int age = Integer.parseInt(userInfo.get(2));
+    	String phone = userInfo.get(3);
+    	String address = userInfo.get(4);
+    	String username = userInfo.get(6);
+    	
+    	
+    	if(userInfo.get(5) == "manager") {
+    		userModel = new Manager(fname, lname, age, phone, address, Role.MANAGER, username);
+    	}
+    	else if(userInfo.get(5) == "landlord") {
+    		userModel = new Landlord(fname, lname, age, phone, address, Role.LANDLORD, username);
+    	}
+    	else if(userInfo.get(5).equals("renter")) {
+    		userModel = new RegisteredRenter(fname, lname, age, phone, address, Role.RENTER, username);
+    	}
+    	
+    }
+    
+    public User getCurrentUser() {
+    	return userModel;
+    }
+    
+    public ArrayList<String> getUserData(String username){
+        ArrayList<String> userData = new ArrayList<>();
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM userInfo");
+            while (results.next()) {
+                if (Objects.equals(results.getString("username"), username)){
+                    userData.add(results.getString("firstName"));
+                    userData.add(results.getString("lastName"));
+                    userData.add(results.getString("age"));
+                    userData.add(results.getString("phoneNo"));
+                    userData.add(results.getString("address"));
+                    userData.add(results.getString("userRole"));
+                    userData.add(username);
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return userData;
+    }
+    
+    
 }

@@ -1,5 +1,7 @@
 package view.user;
 
+import controller.authenticationController;
+import controller.emailServiceController;
 import controller.managerController;
 import controller.propertyController;
 
@@ -31,10 +33,22 @@ public class managerPanel extends JPanel implements ActionListener {
 
     public managerPanel() {
         propertyController propertyController = new propertyController();
+        propertyController.changePropertyState("1","RENTED");
         String[][] dataInput = propertyController.findProperties("Apartment", "2", "3", "true", "NE");
         String[] columnInput = { "Prop Type", "Num Bed", "Num bath", "Furnished", "Quadrant" };
         this.data = dataInput;
         this.column = columnInput;
+        
+        authenticationController authenticationController = new authenticationController(); 
+        System.out.println(authenticationController.verifyUserData("username2","password2"));
+        ArrayList<String> s = authenticationController.getUserData("username2");
+        authenticationController.createUser(s);
+        
+        System.out.println(propertyController.publishProperty("1", 20, "username3"));
+        
+//        emailServiceController emailServiceController = new emailServiceController();
+//        emailServiceController.contactOwner(1,"username2", "Hey I am interest in this property");
+        
 
         this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
         this.setLayout(new FlowLayout());

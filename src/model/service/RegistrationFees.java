@@ -10,10 +10,10 @@ public class RegistrationFees {
 		controller = new paymentServiceController(); 
 	}
 	
-//	public int requestFees(int days) {
-//		setFees(controller.getFees());
-//		return 0;
-//	}
+	public int requestFees(int days) {
+		setFees(controller.getFees());
+		return 0;
+	}
 
 	public int getFees() {
 		return fees;

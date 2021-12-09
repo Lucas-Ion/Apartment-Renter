@@ -72,5 +72,16 @@ CREATE TABLE fees(
     primary key(feeID)
 );
 
+select * from landlordInfo;
 
+insert into renterinfo
+values("username2", "Apartment 2 3 true NE");
 
+insert into fees
+values(1,2,30);
+
+insert into listinginfo
+values("username2");
+
+insert into listinginfo
+values("username4");

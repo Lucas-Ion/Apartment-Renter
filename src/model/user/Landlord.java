@@ -14,18 +14,24 @@ public class Landlord extends User {
 	private PaymentService paymentService; 
 	
 
-	public Landlord(String name, String address, String phone, Account account, int age, Role role) {
-		super(name, address, phone, account, age, role);
-//		paymentService = new PaymentService();
+	public Landlord(String fname, String lname, String address, String phone, Account account, int age, Role role) {
+		super(fname, lname, address, phone, account, age, role);
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Landlord(String fname, String lname, int age, String phone,String address,  Role role, String username) {
+		super(fname, lname, age, phone,  address,role, username);
+		paymentService = new PaymentService(username);
+	}
+	
 	
 	
 //	public void registerProperty(Property p) {}
 //	public void updateProperty(Property newP) {}
-//	public int makePayment(int days) {
-//		return paymentService.makePayment(days);
-//	}
+	
+	public int makePayment(int days) {
+		return paymentService.makePayment(days);
+	}
 	public void changePropertyState() {
 		
 	}

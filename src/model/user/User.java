@@ -1,24 +1,39 @@
 package model.user;
 
 public abstract class User {
-	private String name;
+	private String fname;
+	private String lname;
 	private String address;
 	private String phone;
 	private String notiMessage;
-	private Account account;
+	private Account account; // Account is useless!
+	private String username;
 	private Role role;
 	private int age;
 
-	public User(String name, String address, String phone, Account account, int age, Role role) {
-		setName(name);
+	public User(String fname, String lname, String address, String phone, Account account, int age, Role role) {
+		setFName(fname);
+		setLName(lname);
 		setAddress(address);
 		setPhone(phone);
 		setAccount(account);
 		setAge(age);
 		setRole(role);
 	}
+
+	public User(String fname, String lname, int age, String phone, String address, Role role, String username) {
+		setFName(fname);
+		setLName(lname);
+		setAddress(address);
+		setPhone(phone);
+		setUsername(username);
+		setAge(age);
+		setRole(role);
+	}
+
 	public User() {
-		setName("Anonymous");
+		setFName("Anonymous");
+		setLName("Anonymous");
 		setAddress("null");
 		setPhone("null");
 		setAccount(new Account());
@@ -26,12 +41,20 @@ public abstract class User {
 		setRole(Role.RENTER);
 	}
 
-	public String getName() {
-		return name;
+	public String getFName() {
+		return fname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFName(String fname) {
+		this.fname = fname;
+	}
+
+	public String getLName() {
+		return lname;
+	}
+
+	public void setLName(String lname) {
+		this.lname = lname;
 	}
 
 	public String getAddress() {
@@ -85,5 +108,13 @@ public abstract class User {
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }
