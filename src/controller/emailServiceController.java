@@ -1,13 +1,14 @@
 package controller;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class emailServiceController {
     private connector connect = new connector();
     private ResultSet results;
 
-    public void sendTo(int messageID, String receiver, String sender, String message){
+    public void sendTo(String receiver, String sender, String message){
         try{
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
                     connect.getUsername(), connect.getPassword());
@@ -16,7 +17,7 @@ public class emailServiceController {
                     "VALUES (?, ?, ?, ?)";
             PreparedStatement userStmt = dbConnect.prepareStatement(query);
 
-            userStmt.setInt(1, messageID);
+            userStmt.setInt(1, getLatestMessageID());
             userStmt.setString(2, sender);
             userStmt.setString(2, receiver);
             userStmt.setString(2, message);
@@ -48,6 +49,60 @@ public class emailServiceController {
         return landlordEmail;
     }
 
+    public ArrayList<String> getReceiverMessage(String receiverUsername){
+        ArrayList<String> messages = new ArrayList<>();
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM emailMessage");
+            while (results.next()) {
+                if (Objects.equals(results.getString("recieverUserName") ,receiverUsername)) {
+                    messages.add(results.getString("message"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return messages;
+    }
+
+    public ArrayList<String> getSenderMessage(String senderUsername){
+        ArrayList<String> messages = new ArrayList<>();
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM emailMessage");
+            while (results.next()) {
+                if (Objects.equals(results.getString("senderUserName") ,senderUsername)) {
+                    messages.add(results.getString("message"));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return messages;
+    }
+
+    public int getLatestMessageID(){
+        int messageID = 0;
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM emailMessage");
+            while (results.next()) {
+                messageID = results.getInt("messageID");
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return messageID+1;
+    }
     //function to get latest messageID and return it with 1 incremented
     //function to get messages for receiver
     //function to get messages for sender
