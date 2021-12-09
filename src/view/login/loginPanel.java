@@ -12,7 +12,11 @@ import javax.swing.JTextField;
 
 public class loginPanel extends JPanel implements ActionListener {
 
-    final int PANEL_WIDTH = 700;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	final int PANEL_WIDTH = 700;
     final int PANEL_HEIGHT = 500;
 
     Image backgroundImage;
@@ -24,7 +28,7 @@ public class loginPanel extends JPanel implements ActionListener {
     loginPanel(){
         this.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
         this.setBackground(Color.decode("#d387ff"));;
-
+        
         // set flow layout for the frame
         this.setLayout(new FlowLayout());
        button = new JButton("Login");

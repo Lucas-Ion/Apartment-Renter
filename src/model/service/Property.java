@@ -1,8 +1,10 @@
 package model.service;
 
+import java.util.ArrayList;
+
 import model.user.Landlord;
 
-public class Property {
+public class Property implements Comparable<Property> {
 	private int numOfBed;
 	private int numOfBath;
 	private boolean isFurnished;
@@ -20,6 +22,14 @@ public class Property {
 		propertyType = typeProp;
 		owner = own;
 		propertyState = propState;
+	}
+
+	public Property(int numBed, int numBath, boolean furnish, String quadrant, String typeProp) {
+		numOfBed = numBed;
+		numOfBath = numBath;
+		isFurnished = furnish;
+		cityQuadrant = quadrant;
+		propertyType = typeProp;
 	}
 
 	public String getPropertyType() {
@@ -68,6 +78,32 @@ public class Property {
 
 	public void setPropertyState(State propertyState) {
 		this.propertyState = propertyState;
+	}
+
+	@Override
+	public int compareTo(Property o) {
+		if (this.getCityQuadrant().equals(o.cityQuadrant) && this.getNumOfBath() == o.numOfBath
+				&& this.getNumOfBed() == o.numOfBed && this.getPropertyType().equals(o.propertyType)) {
+			return 1;
+		} else
+			return -1;
+	}
+
+	@Override
+	public String toString() {
+		String result = this.propertyType + " " + this.numOfBed + " " + this.numOfBath + " " + this.isFurnished + " "
+				+ this.cityQuadrant;
+		return result;
+	}
+
+	public ArrayList<String> toArray() {
+		ArrayList<String> result = new ArrayList<String>();
+		result.add(propertyType);
+		result.add(String.valueOf(numOfBed));
+		result.add(String.valueOf(numOfBath));
+		result.add(String.valueOf(isFurnished));
+		result.add(cityQuadrant);
+		return result;
 	}
 
 }

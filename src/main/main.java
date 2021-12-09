@@ -1,12 +1,10 @@
 package main;
-import java.awt.*;
-import javax.swing.*;
-import view.login.*;
+import view.login.loginFrame;
 
 public class main {
 
     public static void main(String[] args) {
-        new loginFrame();
+        loginFrame login = new loginFrame();
     }
 
 

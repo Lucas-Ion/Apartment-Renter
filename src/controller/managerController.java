@@ -35,7 +35,6 @@ public class managerController {
                     data.add(results.getString("address"));
                     renterData.add(data);
                 }
-
             }
 
         } catch (SQLException e){

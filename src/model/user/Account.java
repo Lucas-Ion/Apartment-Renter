@@ -9,6 +9,11 @@ public class Account implements Cloneable {
 		this.setPassword(p);
 	}
 
+	public Account() {
+		this.setUsername("Anonymous");
+		this.setPassword("Anonymous");
+	}
+
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		return super.clone();
