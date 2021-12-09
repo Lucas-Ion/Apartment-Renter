@@ -4,22 +4,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import model.service.Property;
-import model.user.Renter;
-
 public class propertyController {
-    private connector connect;
-    private static Renter renterModel = new Renter();
+    private connector connect = new connector();
     private ResultSet results;
-    
-    public propertyController () {
-    	connect = new connector();
-    }
 
-    //function to get latest propertyID and return it with 1 incremented
-    public void registerProperty(int propID, String propState, String propType, int numOfBed,
+    public void registerProperty(String propState, String propType, int numOfBed,
                                int numOfBath, String isFurnished, String cityQuadrant, String address, int landlordID){
-    	
         try{
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
                     connect.getUsername(), connect.getPassword());
@@ -28,7 +18,7 @@ public class propertyController {
                     "VALUES (?,?,?,?,?,?,?,?,?)";
             PreparedStatement userStmt = dbConnect.prepareStatement(query);
 
-            userStmt.setInt(1, propID);
+            userStmt.setInt(1, getLatestPropertyID());
             userStmt.setString(2, propState);
             userStmt.setString(3, propType);
             userStmt.setInt(4, numOfBed);
@@ -44,16 +34,39 @@ public class propertyController {
             System.out.println("Database Error");
         }
     }
-    public String[][] convert2dArray(ArrayList<ArrayList<String>> s) {
-        String[][] result = s.stream().map(u -> u.toArray(new String[0])).toArray(String[][]::new);
-        return result;
-    }
-    
+
     //let model handle filtering properties
-    public String [][] findProperties(String propType, String numOfBed, String numOfBath, String isFurnished, String cityQuad) {
-    	Property tmp = new Property(Integer.parseInt(numOfBed), Integer.parseInt(numOfBath), Boolean.parseBoolean(isFurnished), cityQuad, propType);
-    	ArrayList<ArrayList<String>> propertyList = renterModel.searchProperty(tmp);
-    	return convert2dArray(propertyList);
+    public ArrayList<ArrayList<String>> findProperties(String propType, String numOfBed, String numOfBath, String isFurnished, String cityQuad) {
+        StringBuilder property = new StringBuilder();
+        ArrayList<ArrayList<String>> propertyList = new ArrayList<>();
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM propertyInfo");
+            while (results.next()) {
+                property.append(results.getString("propType")).append(" ").append(results.getString("numBed")).append(" ")
+                        .append(results.getString("numBath")).append(" ").append(results.getString("isFurnished")).append(" ")
+                        .append(results.getString("cityQuadrant"));
+                String propInfo = property.toString();
+                if(propInfo.contains(propType) && propInfo.contains(numOfBed) && propInfo.contains(numOfBath) && propInfo.contains(isFurnished)
+                && propInfo.contains(cityQuad)){
+                    ArrayList<String> temp = new ArrayList<>();
+                    temp.add(results.getString("propID"));
+                    temp.add(results.getString("propType"));
+                    temp.add(results.getString("numBed"));
+                    temp.add(results.getString("numBath"));
+                    temp.add(results.getString("isFurnished"));
+                    temp.add(results.getString("cityQuadrant"));
+                    propertyList.add(temp);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return propertyList;
     }
 
     public void changePropertyState(String propID, String propState){
@@ -100,5 +113,21 @@ public class propertyController {
         return propertyInfo;
     }
 
+    public int getLatestPropertyID(){
+        int propertyID = 0;
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM propertyInfo");
+            while (results.next()) {
+                propertyID = results.getInt("propID");
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return propertyID+1;
+    }
 
 }

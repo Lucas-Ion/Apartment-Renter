@@ -2,6 +2,7 @@ package controller;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class listingController {
     private connector connect = new connector();
@@ -18,6 +19,27 @@ public class listingController {
             }
         }
         return subscriberList;
+    }
+
+    public String getRenterSearchCriteria(String renterUsername){
+        String renterSearchCrit = "";
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM renterInfo");
+            while (results.next()) {
+                if (Objects.equals(results.getString("username"), renterUsername)) {
+                    renterSearchCrit = results.getString("searchCrit");
+                    break;
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+
+        return renterSearchCrit;
     }
 
     public void setRenterSearchCriteria(String renterUsername, String searchCriteria){

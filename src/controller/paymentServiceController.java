@@ -41,9 +41,41 @@ public class paymentServiceController {
             e.printStackTrace();
         }
     }
-    
 
+    public int getFees(){
+        int fee = 0;
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM fees");
+            while (results.next()) {
+                fee = results.getInt("fee");
+            }
 
-    //function that returns fee and function that returns period of time
-    //new table for fees, includes fee and fixed period of time
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return fee;
+    }
+
+    public int getPeriod(){
+        int period = 0;
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM fees");
+            while (results.next()) {
+                period = results.getInt("period");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+        return period;
+    }
+
 }

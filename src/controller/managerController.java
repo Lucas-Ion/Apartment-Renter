@@ -35,6 +35,7 @@ public class managerController {
                     data.add(results.getString("address"));
                     renterData.add(data);
                 }
+
             }
 
         } catch (SQLException e){
@@ -123,6 +124,36 @@ public class managerController {
         return report.toString();
     }
 
-    //new function to set fees
-    //new function to set period of time
+    public void setFees(int fees){
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            String query = "UPDATE fees SET fee=? WHERE feeID=?";
+            PreparedStatement userStmt = dbConnect.prepareStatement(query);
+            userStmt.setInt(1, fees);
+            userStmt.setInt(2, 1);
+            userStmt.executeUpdate();
+            userStmt.close();
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+    }
+
+    public void setPeriod(int period){
+        try {
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            String query = "UPDATE fees SET period=? WHERE feeID=?";
+            PreparedStatement userStmt = dbConnect.prepareStatement(query);
+            userStmt.setInt(1, period);
+            userStmt.setInt(2, 1);
+            userStmt.executeUpdate();
+            userStmt.close();
+        } catch (SQLException e) {
+            System.out.println("Database error");
+            e.printStackTrace();
+        }
+    }
+
 }
