@@ -1,15 +1,19 @@
 package model.service;
 
+import controller.paymentServiceController;
+
 public class RegistrationFees {
 	private int fees;
+	private static paymentServiceController controller;
 	
-	public RegistrationFees(int fees) {
-		this.fees = fees;
+	public RegistrationFees() {
+		controller = new paymentServiceController(); 
 	}
 	
-	public void feesCalculation(int days) {
-		// weeks or months
-	}
+//	public int requestFees(int days) {
+//		setFees(controller.getFees());
+//		return 0;
+//	}
 
 	public int getFees() {
 		return fees;
