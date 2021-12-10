@@ -6,9 +6,10 @@ import java.util.Objects;
 
 public class emailServiceController {
     private connector connect = new connector();
-    private ResultSet results;
+    private ResultSet results;    
 
     public void sendTo(String receiver, String sender, String message){
+    	System.out.println(getLatestMessageID());
         try{
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
                     connect.getUsername(), connect.getPassword());
@@ -16,11 +17,11 @@ public class emailServiceController {
                     "(messageID, senderUserName, receiverUserName, message) " +
                     "VALUES (?, ?, ?, ?)";
             PreparedStatement userStmt = dbConnect.prepareStatement(query);
-
-            userStmt.setInt(1, getLatestMessageID());
+            
+            userStmt.setInt(1, getLatestMessageID()); //get Latest
             userStmt.setString(2, sender);
-            userStmt.setString(2, receiver);
-            userStmt.setString(2, message);
+            userStmt.setString(3, receiver);
+            userStmt.setString(4, message);
 
             userStmt.executeUpdate();
             userStmt.close();
@@ -28,8 +29,10 @@ public class emailServiceController {
             System.out.println("Database Error");
         }
     }
+    
+    
 
-    public String getLandlordEmail(String propID){
+    public String getLandlordEmail(int propID){
         String landlordEmail = "";
         try {
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
@@ -37,7 +40,7 @@ public class emailServiceController {
             Statement myStmt = dbConnect.createStatement();
             results = myStmt.executeQuery("SELECT * FROM propertyInfo");
             while (results.next()) {
-                if (Objects.equals(results.getString("username"), propID)) {
+                if (Objects.equals(results.getInt("propID"), propID)) {
                     landlordEmail = results.getString("landlordUsername");
                     break;
                 }
@@ -57,7 +60,7 @@ public class emailServiceController {
             Statement myStmt = dbConnect.createStatement();
             results = myStmt.executeQuery("SELECT * FROM emailMessage");
             while (results.next()) {
-                if (Objects.equals(results.getString("recieverUserName") ,receiverUsername)) {
+                if (Objects.equals(results.getString("receiverUserName") ,receiverUsername)) {
                     messages.add(results.getString("message"));
                 }
             }
@@ -86,6 +89,12 @@ public class emailServiceController {
         }
         return messages;
     }
+    
+    
+    public void contactOwner(int propId, String renterUsername, String message) {
+    	String landlordUsername = getLandlordEmail(propId);
+    	sendTo(landlordUsername, renterUsername, message);
+    } 
 
     public int getLatestMessageID(){
         int messageID = 0;

@@ -1,37 +1,49 @@
 package model.user;
 
 public abstract class User {
-	private String name;
+	private String fname;
+	private String lname;
 	private String address;
 	private String phone;
 	private String notiMessage;
-	private Account account;
+	private String username;
 	private Role role;
 	private int age;
 
-	public User(String name, String address, String phone, Account account, int age, Role role) {
-		setName(name);
+	public User(String fname, String lname, int age, String phone, String address, Role role, String username) {
+		setFName(fname);
+		setLName(lname);
 		setAddress(address);
 		setPhone(phone);
-		setAccount(account);
+		setUsername(username);
 		setAge(age);
 		setRole(role);
 	}
+
 	public User() {
-		setName("Anonymous");
+		setFName("Anonymous");
+		setLName("Anonymous");
 		setAddress("null");
 		setPhone("null");
-		setAccount(new Account());
+		setUsername("Anonymous");
 		setAge(0);
 		setRole(Role.RENTER);
 	}
 
-	public String getName() {
-		return name;
+	public String getFName() {
+		return fname;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setFName(String fname) {
+		this.fname = fname;
+	}
+
+	public String getLName() {
+		return lname;
+	}
+
+	public void setLName(String lname) {
+		this.lname = lname;
 	}
 
 	public String getAddress() {
@@ -66,24 +78,19 @@ public abstract class User {
 		this.age = age;
 	}
 
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		try {
-			this.account = (Account) account.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public Role getRole() {
 		return role;
 	}
 
 	public void setRole(Role role) {
 		this.role = role;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

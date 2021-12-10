@@ -17,7 +17,7 @@ public class connector {
      * or password has been entered.
      */
     public connector() {
-        this.dbUrl = "jdbc:mysql://localhost/propertySystem";
+        this.dbUrl = "jdbc:mysql://localhost:3306/propertySystem";
         this.username = "root";
         this.password = "password";
     }

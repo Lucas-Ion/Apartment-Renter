@@ -3,32 +3,41 @@ package model.service;
 import controller.paymentServiceController;
 
 public class PaymentService {
-	private RegistrationFees feeType;
+	private final int BASE_DAY = 30;
 	private String landlordUsername;
-	private int days;
 	private static paymentServiceController controller;
-	
-	
-	public PaymentService(String landlordUserName) {
-		this.feeType = new RegistrationFees();
+
+	public PaymentService(String username) {
 		controller = new paymentServiceController();
-		setLandlordUsername(landlordUserName);
+		setLandlordUsername(username);
 	}
-//	public int makePayment(int days) {
-//		int feeAmount = feeType.requestFees(days);
-//		int myBalance = requestBalance();
-//		return myBalance - feeAmount; 
-//	}
-	
-	public String addBalance(int amount) {
-		return null;
+
+	public int makePayment(int days) {
+		int fees = requestFees() * days/BASE_DAY;
+		int myBalance = requestBalance();
+		return myBalance - fees;
 	}
-	
+
+	public void addBalance(int amount) {
+		int balance = controller.getBalance(landlordUsername);
+		controller.updateBalance(landlordUsername, amount + balance);
+	}
+
+	public void updateBalance(int amount) {
+		controller.updateBalance(landlordUsername, amount);
+	}
+
+	public int requestBalance() {
+		return controller.getBalance(landlordUsername);
+	}
+
 	public void setLandlordUsername(String u) {
 		this.landlordUsername = u;
 	}
-	
-//	public int requestBalance() {
-//		controller.getBalance(landlordUsername);
-//	}
+
+	public int requestFees() {
+		return controller.getFees();
+	}
+
+
 }

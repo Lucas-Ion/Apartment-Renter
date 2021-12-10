@@ -10,14 +10,19 @@ public class listingController {
 
     public ArrayList<String> getSubscribers(){
         ArrayList<String> subscriberList = new ArrayList<>();
-        managerController userGetter = new managerController();
-        ArrayList<ArrayList<String>> userInfo = new ArrayList<>();
-
-        for (ArrayList<String> strings : userInfo) {
-            if (!strings.get(1).isEmpty()) {
-                subscriberList.add(strings.get(0));
+        try{
+            Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),
+                    connect.getUsername(), connect.getPassword());
+            Statement myStmt = dbConnect.createStatement();
+            results = myStmt.executeQuery("SELECT * FROM listinginfo");
+            while(results.next()){            
+            	subscriberList.add(results.getString("renterUserName"));
             }
+        } catch (SQLException e){
+            System.out.println("Database error");
+            e.printStackTrace();
         }
+        
         return subscriberList;
     }
 
