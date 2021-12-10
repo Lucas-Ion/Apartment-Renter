@@ -19,7 +19,7 @@ public class connector {
     public connector() {
         this.dbUrl = "jdbc:mysql://localhost:3306/propertySystem";
         this.username = "root";
-        this.password = "NMN[L0v31sS3x]";
+        this.password = "password";
     }
 
     /**

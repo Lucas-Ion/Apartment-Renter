@@ -6,7 +6,8 @@ import controller.emailServiceController;
 import controller.listingController;
 import controller.propertyController;
 
-public class Listing implements Subject {
+
+public class Listing {
 	private ArrayList<String> subscriberList;
 	private ArrayList<Property> searchCriteriaList;
 	private ArrayList<Property> propertyListing;
@@ -93,30 +94,6 @@ public class Listing implements Subject {
 
 	public void setSearchCriteriaList(ArrayList<Property> searchCriteriaList) {
 		this.searchCriteriaList = searchCriteriaList;
-	}
-
-	@Override
-	public void register(Observer ob) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void contactOwner() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void remove(Observer ob) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void notifyObserver() {
-		// TODO Auto-generated method stub
-
 	}
 
 }

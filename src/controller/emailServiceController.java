@@ -6,14 +6,9 @@ import java.util.Objects;
 
 public class emailServiceController {
     private connector connect = new connector();
-    private ResultSet results;
-    private static authenticationController authenticationController = new authenticationController();
-    
+    private ResultSet results;    
 
     public void sendTo(String receiver, String sender, String message){
-    	System.out.println(receiver);
-    	System.out.println(sender);
-    	System.out.println(message);
     	System.out.println(getLatestMessageID());
         try{
             Connection dbConnect = DriverManager.getConnection(connect.getDbUrl(),

@@ -143,9 +143,6 @@ public class authenticationController {
     
     
     public void createUser(ArrayList<String> userInfo) {
-//    	for(String s : userInfo) {
-//    		System.out.println(s);
-//    	}
     	String fname = userInfo.get(0);
     	String lname = userInfo.get(1);
     	int age = Integer.parseInt(userInfo.get(2));
